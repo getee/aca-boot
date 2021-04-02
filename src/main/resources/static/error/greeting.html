@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Error Pages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!-- 公共错误页面  -->
+  <p th:text="'Url:' + ${URL}" />
+  <p th:text="'Error:' + ${error}" />
+  <p th:text="'Status:' + ${status}" />
+  <p th:text="'Timestamp:' + ${timestamp}" />
+  <p th:if="${status == 500}" th:text="'exception:' + ${exception}"/>
+  <p th:if="${status == 500}" th:text="'message:' + ${message}"/>
+  <p th:if="${status == 500}" th:text="'trace:' + ${trace}"/>
+</body>
+</html>

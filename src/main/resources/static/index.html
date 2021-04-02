@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="tsApp">
+<head>
+    <meta charset="UTF-8">
+    <title>tsApp</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+
+    <!-- 源 -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+
+    <!-- 自定义 -->
+    <script src="tsApp.module.js"></script>
+    <script src="tsApp.config.js"></script>
+
+    <script src="business/user/user-config.component.js"></script>
+    <script src="business/focus/focus-list.component.js"></script>
+    <script src="business/focus/focus-detail.component.js"></script>
+
+
+    <script src="business/recent/recent-list.component.js"></script>
+    <script src="business/hot/hot-list.component.js"></script>
+    <script src="business/favs/favs-list.component.js"></script>
+    <script src="business/search/search-list.component.js"></script>
+
+    <script src="business/donation/donation.component.js"></script>
+
+    <script src="business/aboutUs/aboutUs.controller.js"></script>
+    <script src="business/aboutUs/abouteUsDetail.controller.js"></script>
+
+</head>
+<body>
+    <!-- 容器 -->
+    <div class="view-container">
+        <!-- 导航栏 -->
+        <div class="form-control row col-md-12">
+            <div class="col-md-2 user">
+                <a href="#!/user">用户</a>
+            </div>
+            <div class="col-md-2 focus">
+                <a href="#!/focus">关注</a>
+            </div>
+            <div class="col-md-2 recent">
+                <a href="#!/recent">推荐</a>
+            </div>
+            <div class="col-md-2 hot">
+                <a href="#!/hot"> 热点 </a>
+            </div>
+            <div class="col-md-2 favs">
+                <a href="#!/favs">收藏</a>
+            </div>
+            <div ng-if="false" class="col-md-1 aboutUs">
+                <a href="#!/aboutUs">联系我们</a>
+            </div>
+            <div ng-if="false" class="col-md-1 search">
+                <a href="#!search">搜索图标</a>
+            </div>
+            <div class="col-md-1 search">
+                <form action="/logout" method="post">
+                    <button class="btn btn-primary" type="submit">退出登录</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- 内容框 -->
+        <div class="content col-md-12 clear-both clear" >
+          <div ng-view class="view-frame">
+          </div>
+        </div>
+
+    </div>
+</body>
+</html>

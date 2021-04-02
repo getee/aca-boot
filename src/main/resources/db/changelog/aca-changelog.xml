@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+  http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet author="ts-db" id="1">
+    <sql>
+        <![CDATA[
+            create sequence tbl_user_id_seq start 100;
+            create table tbl_user (
+                id bigint not null primary key default nextval('tbl_user_id_seq'),
+                login_name varchar(128) not null,
+                user_name varchar(128) not null,
+                passwd varchar(128),
+                role_id bigint,
+                state int default 0,
+                join_time timestamp not null default current_timestamp,
+                last_login_time timestamp,
+                update_time timestamp,
+                deleted boolean not null default false,
+                pwd_change_time timestamp,
+                user_desc text,
+                extra jsonb
+            );
+
+            insert into tbl_user (id, login_name, user_name, passwd, role_id) values (1, 'admin', 'admin', 'admin', 1);
+            insert into tbl_user (id, login_name, user_name, passwd, role_id) values (2, 'user', 'user', 'user', 2);
+            insert into tbl_user (id, login_name, user_name, passwd, role_id) values (3, 'guest', 'guest', 'guest', 3);
+
+            create sequence tbl_role_id_seq start 100;
+            create table tbl_role(
+                id bigint not null primary key default nextval('tbl_role_id_seq'),
+                role_name varchar(32) not null,
+                role_desc text,
+                perms varchar(64)[] not null,
+                auths jsonb
+            );
+
+            insert into tbl_role (id, role_name, role_desc, auths, perms) values
+                (1, 'ROLE_ADMIN', 'SUPER ADMINISTRATOR', '{}', Array['ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST']),
+                (2, 'ROLE_USER', 'USER', '{}', Array['ROLE_USER', 'ROLE_GUEST']),
+                (3, 'ROLE_GUEST', 'GUEST', '{}', Array['ROLE_GUEST']);
+
+        ]]>
+    </sql>
+    <customChange class="com.aca.config.ChangePwd"></customChange>
+  </changeSet>
+
+  <changeSet author="ts-db" id="2">
+    <sql>
+        <![CDATA[
+            create table tbl_module(
+                id bigint primary key not null,
+                name varchar(218) not null,
+                description text,
+                extra jsonb
+            );
+            create table tbl_role_module (
+                role_id bigint not null,
+                module_id bigint not null
+            );
+            create unique index tbl_role_module_union_index on tbl_role_module(role_id, module_id);
+
+
+        ]]>
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

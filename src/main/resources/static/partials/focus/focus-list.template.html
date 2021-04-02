@@ -1,0 +1,12 @@
+<div>
+	<a href="#!/focus">focus</a>
+</div>
+
+<div>
+    focus{{$ctrl.focuses}}
+    <div ng-repeat="focus in $ctrl.focuses">
+    	<div>
+    		<a href="#!/focus/{{focus.id}}">关注内容： {{focus.id}}</a>
+    	</div>
+    </div>
+</div>
