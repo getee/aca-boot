@@ -1,0 +1,84 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8'
+    id 'java'
+}
+
+group = 'com.aca'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    //mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/central'}
+    maven { url 'https://maven.aliyun.com/repository/spring'}
+    maven { url 'https://maven.aliyun.com/repository/spring-plugin'}
+    maven { url 'https://maven.aliyun.com/repository/grails-core'}
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-ldap'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.4.3'
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2/3.0.0
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui/3.0.0
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+
+    compile 'org.liquibase:liquibase-core:3.8.0' // 必须固定3.8.0版本，升级到最新版本，执行过程不打印执行的sql……
+
+    runtime 'org.apache.logging.log4j:log4j-liquibase'
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    compile 'org.postgresql:postgresql'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
